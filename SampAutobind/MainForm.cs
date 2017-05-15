@@ -53,8 +53,6 @@ namespace SampAutobind
                 attachBtn.BackColor = Color.Green; //User Feedback
                 attachBtn.Enabled = false;
 
-                string test = Newtonsoft.Json.JsonConvert.SerializeObject(WeaponKeybinds);
-
                 gunCheckerTimer.Interval = 100;
                 gunCheckerTimer.Tick += GunCheckerTimer_Tick;
                 gunCheckerTimer.Start();
