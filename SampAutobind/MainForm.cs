@@ -6,7 +6,6 @@ using SampAutobind.Enums;
 using SampAutobind.Models;
 using System.Drawing;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Diagnostics;
 using Newtonsoft.Json;
 
