@@ -38,7 +38,7 @@
             // 
             // gunBindsToggleBtn
             // 
-            this.gunBindsToggleBtn.Location = new System.Drawing.Point(164, 57);
+            this.gunBindsToggleBtn.Location = new System.Drawing.Point(164, 62);
             this.gunBindsToggleBtn.Name = "gunBindsToggleBtn";
             this.gunBindsToggleBtn.Size = new System.Drawing.Size(108, 23);
             this.gunBindsToggleBtn.TabIndex = 0;
@@ -78,7 +78,7 @@
             // gunBindsEnabledLbl
             // 
             this.gunBindsEnabledLbl.AutoSize = true;
-            this.gunBindsEnabledLbl.Location = new System.Drawing.Point(129, 62);
+            this.gunBindsEnabledLbl.Location = new System.Drawing.Point(129, 67);
             this.gunBindsEnabledLbl.Name = "gunBindsEnabledLbl";
             this.gunBindsEnabledLbl.Size = new System.Drawing.Size(29, 13);
             this.gunBindsEnabledLbl.TabIndex = 4;
@@ -88,7 +88,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 62);
+            this.label2.Location = new System.Drawing.Point(12, 67);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(111, 13);
             this.label2.TabIndex = 5;
