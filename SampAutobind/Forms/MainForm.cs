@@ -8,35 +8,37 @@ using System.Drawing;
 using System.IO;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using SampAutobind.Logic;
 
 namespace SampAutobind.Forms
 {
     public partial class MainForm : Form
     {
         private IntPtr GunHoldingAddress = new IntPtr(0xBAA410);
-        private MemorySharp Mem;
         private Timer GunCheckerTimer = new Timer();
         private Weapons CurrentGun { get; set; }
         private Weapons OldGun { get; set; }
         private List<WeaponKeybindModel> WeaponKeybinds { get; set; }
         private bool GunBindsEnabled = false;
+        private string settingsFile = "settings.json";
 
         public MainForm()
         {
             InitializeComponent();
             gunBindsToggleBtn.BackColor = Color.Red;
             WeaponKeybinds = new List<WeaponKeybindModel>();
-            if (File.Exists("Keybinds.json"))
+            if (File.Exists(settingsFile))
             {
-                using (StreamReader sr = new StreamReader("Keybinds.json"))
+                using (StreamReader sr = new StreamReader(settingsFile))
                 {
                     string text = sr.ReadToEnd();
                     WeaponKeybinds = JsonConvert.DeserializeObject<List<WeaponKeybindModel>>(text);
                     sr.Close();
                 }
-            } else
+            }
+            else
             {
-                using(StreamWriter sw = new StreamWriter("Keybinds.json"))
+                using (StreamWriter sw = new StreamWriter(settingsFile))
                 {
                     sw.WriteLine(JsonConvert.SerializeObject(WeaponKeybinds));
                     sw.Close();
@@ -46,21 +48,14 @@ namespace SampAutobind.Forms
 
         private void attachBtn_Click(object sender, EventArgs e)
         {
-            try
+            if (MemoryManager.AttachToProcess())
             {
-                Mem = new MemorySharp(Process.GetProcessesByName("gta_sa")[0]);
-
-                attachBtn.BackColor = Color.Green; //User Feedback
+                attachBtn.BackColor = Color.Green;
                 attachBtn.Enabled = false;
 
                 GunCheckerTimer.Interval = 100;
                 GunCheckerTimer.Tick += GunCheckerTimer_Tick;
                 GunCheckerTimer.Start();
-            }
-            catch (IndexOutOfRangeException ex)
-            {
-                MessageBox.Show("Game not found!");
-                //throw ex;
             }
         }
 
@@ -68,9 +63,9 @@ namespace SampAutobind.Forms
         {
             try
             {
-                if (Mem.IsRunning)
+                if (MemoryManager.IsProcessAlive())
                 {
-                    CurrentGun = (Weapons)Mem.Read<int>(GunHoldingAddress, false);
+                    CurrentGun = (Weapons)MemoryManager.ReadInt(GunHoldingAddress);
                     currentGunLabel.Text = CurrentGun.ToString();
 
                     if (CurrentGun != OldGun)
@@ -97,25 +92,15 @@ namespace SampAutobind.Forms
             {
                 string oldGunTextIn = WeaponKeybinds.Find(x => x.WeaponID == (int)OldGun)?.GunInAction;
                 string currentGunTextOut = WeaponKeybinds.Find(x => x.WeaponID == (int)CurrentGun)?.GunOutAction;
-                TypeGunLineInWindow(oldGunTextIn);
-                TypeGunLineInWindow(currentGunTextOut);
+                MemoryManager.SendKeysToProcess(oldGunTextIn);
+                MemoryManager.SendKeysToProcess(currentGunTextOut);
             }
             OldGun = CurrentGun;
         }
 
-        private void TypeGunLineInWindow(string text)
-        {
-            if (!string.IsNullOrEmpty(text))
-            {
-                Mem.Windows.MainWindow.Keyboard.Press(Binarysharp.MemoryManagement.Native.Keys.Enter, TimeSpan.FromMilliseconds(20));
-                Mem.Windows.MainWindow.Keyboard.Write(string.Format("t{0}", text));
-                Mem.Windows.MainWindow.Keyboard.Release(Binarysharp.MemoryManagement.Native.Keys.Enter);
-            }
-        }
-
         private void gunBindsToggleBtn_Click(object sender, EventArgs e)
         {
-            if (Mem != null && Mem.IsRunning)
+            if (MemoryManager.IsProcessNull() == false && MemoryManager.IsProcessAlive())
             {
                 if (GunBindsEnabled)
                 {
