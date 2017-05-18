@@ -82,7 +82,9 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logic\GunbindManager.cs" />
     <Compile Include="Logic\MemoryManager.cs" />
+    <Compile Include="Logic\SettingsManager.cs" />
     <Compile Include="Models\WeaponKeybindModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

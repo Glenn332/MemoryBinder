@@ -80,9 +80,9 @@
             this.gunBindsEnabledLbl.AutoSize = true;
             this.gunBindsEnabledLbl.Location = new System.Drawing.Point(129, 67);
             this.gunBindsEnabledLbl.Name = "gunBindsEnabledLbl";
-            this.gunBindsEnabledLbl.Size = new System.Drawing.Size(29, 13);
+            this.gunBindsEnabledLbl.Size = new System.Drawing.Size(27, 13);
             this.gunBindsEnabledLbl.TabIndex = 4;
-            this.gunBindsEnabledLbl.Text = "True";
+            this.gunBindsEnabledLbl.Text = "OFF";
             // 
             // label2
             // 
