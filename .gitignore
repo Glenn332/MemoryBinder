@@ -1,4 +1,7 @@
 .vs/
 SampAutobind/bin/
 SampAutobind/obj/
+SampAutobind/publish/
+SampAutobind/SampAutobind_TemporaryKey.pfx
+SampAutobind/SampAutobind.csproj.user
 packages/

@@ -43,12 +43,12 @@ namespace SampAutobind.Logic
 
         public static string GetGunInText(int gunId)
         {
-            return SettingsManager.Settings.Find(x => x.WeaponID == gunId)?.GunInAction;
+            return SettingsManager.Settings.WeaponKeybinds.Find(x => x.WeaponID == gunId)?.GunInAction;
         }
 
         public static string GetGunOutText(int gunId)
         {
-            return SettingsManager.Settings.Find(x => x.WeaponID == gunId)?.GunOutAction;
+            return SettingsManager.Settings.WeaponKeybinds.Find(x => x.WeaponID == gunId)?.GunOutAction;
         }
 
         public static void StartMemoryChecker()

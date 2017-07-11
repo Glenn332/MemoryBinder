@@ -9,6 +9,9 @@ using System.IO;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using SampAutobind.Logic;
+using SampAutobind.Constants;
+using System.Reflection;
+using SampAutobind.Properties;
 
 namespace SampAutobind.Forms
 {
@@ -18,7 +21,8 @@ namespace SampAutobind.Forms
         {
             InitializeComponent();
             gunBindsToggleBtn.BackColor = Color.Red;
-            SettingsManager.LoadSettingsFile();
+            if (!SettingsManager.LoadSettingsFile())
+                SettingsManager.CreateNewSettingsFile();
             GunbindManager.Initialize(currentGunLabel, gunBindsEnabledLbl, attachBtn, gunBindsToggleBtn);
         }
 
@@ -39,6 +43,17 @@ namespace SampAutobind.Forms
             {
                 GunbindManager.ToggleGunbind();
             }
+        }
+
+        private void gunbindsEditBtn_Click(object sender, EventArgs e)
+        {
+            GunbindsEditForm form = new GunbindsEditForm();
+            form.Show();
+        }
+
+        private void button1_MouseHover(object sender, EventArgs e)
+        {
+            mToolTip.Show(string.Format(MainConstants.INFO_TOOLTIP_FORMAT, Resources.Creator, Environment.NewLine, Assembly.GetExecutingAssembly().GetName().Version), mInfoBtn);
         }
     }
 }

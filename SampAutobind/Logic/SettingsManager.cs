@@ -12,26 +12,41 @@ namespace SampAutobind.Logic
     public static class SettingsManager
     {
         private static string settingsFile = "settings.json";
-        public static List<WeaponKeybindModel> Settings { get; set; }
-        public static void LoadSettingsFile()
+        public static SettingsModel Settings { get; set; }
+        public static bool SettingsFileExist()
         {
-            Settings = new List<WeaponKeybindModel>();
-            if (File.Exists(settingsFile))
+            return File.Exists(settingsFile);
+        }
+        public static bool LoadSettingsFile()
+        {
+            if (!SettingsFileExist())
+                return false;
+            
+            using (StreamReader sr = new StreamReader(settingsFile))
             {
-                using (StreamReader sr = new StreamReader(settingsFile))
-                {
-                    string text = sr.ReadToEnd();
-                    Settings = JsonConvert.DeserializeObject<List<WeaponKeybindModel>>(text);
-                    sr.Close();
-                }
+                string text = sr.ReadToEnd();
+                Settings = JsonConvert.DeserializeObject<SettingsModel>(text);
+                sr.Close();
             }
-            else
+            return true;
+        }
+
+        public static void CreateNewSettingsFile()
+        {
+            Settings = new SettingsModel() { WeaponKeybinds = new List<WeaponKeybindModel>() };
+            using (StreamWriter sw = new StreamWriter(settingsFile))
             {
-                using (StreamWriter sw = new StreamWriter(settingsFile))
-                {
-                    sw.WriteLine(JsonConvert.SerializeObject(Settings));
-                    sw.Close();
-                }
+                sw.WriteLine(JsonConvert.SerializeObject(Settings));
+                sw.Close();
+            }
+        }
+
+        public static void UpdateSettingsFile()
+        {
+            using (StreamWriter sw = new StreamWriter(settingsFile))
+            {
+                sw.WriteLine(JsonConvert.SerializeObject(Settings));
+                sw.Close();
             }
         }
     }
