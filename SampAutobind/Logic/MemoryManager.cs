@@ -61,7 +61,6 @@ namespace SampAutobind.Logic
         {
             if (!string.IsNullOrEmpty(message))
             {
-                Mem.Windows.MainWindow.Keyboard.Press(Binarysharp.MemoryManagement.Native.Keys.Enter, TimeSpan.FromMilliseconds(20));
                 Mem.Windows.MainWindow.Keyboard.Write(string.Format("t{0}", message));
                 Mem.Windows.MainWindow.Keyboard.Release(Binarysharp.MemoryManagement.Native.Keys.Enter);
             }
